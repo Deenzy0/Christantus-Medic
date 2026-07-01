@@ -3,8 +3,8 @@
  * Change API_BASE_URL if your backend runs on a different host/port.
  */
 const CONFIG = {
-  API_BASE_URL: 'http://localhost:5000/api',
-  UPLOADS_BASE_URL: 'http://localhost:5000',
+  API_BASE_URL: 'https://christantus-medic.onrender.com/api',
+  UPLOADS_BASE_URL: 'https://christantus-medic.onrender.com',
   CURRENCY_SYMBOL: '₦',
   FREE_SHIPPING_THRESHOLD: 50000,
   SHIPPING_FEE: 1500,
