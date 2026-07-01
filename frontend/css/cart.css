@@ -1,0 +1,65 @@
+.page-banner { padding: var(--space-6) 0 var(--space-4); }
+.cart-section { padding-bottom: var(--space-9); }
+
+.cart-layout {
+  display: grid;
+  grid-template-columns: 1fr 360px;
+  gap: var(--space-6);
+  align-items: start;
+}
+
+.cart-item-card {
+  display: grid;
+  grid-template-columns: 90px 1fr auto auto;
+  gap: var(--space-4);
+  align-items: center;
+  background: var(--color-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
+  margin-bottom: var(--space-3);
+}
+.cart-item-image {
+  width: 90px; height: 90px;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  background: var(--color-bg);
+}
+.cart-item-image img { width: 100%; height: 100%; object-fit: cover; }
+
+.cart-item-info h4 { font-size: 0.96rem; margin-bottom: var(--space-1); }
+.cart-item-price { color: var(--color-blue); font-weight: 700; }
+.cart-item-stock-warning { color: var(--color-red); font-size: 0.78rem; margin-top: 4px; }
+
+.cart-qty-stepper {
+  display: flex; align-items: center;
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  height: 36px;
+}
+.cart-qty-stepper button { width: 32px; height: 100%; font-weight: 700; color: var(--color-ink-soft); }
+.cart-qty-stepper button:hover { background: var(--color-bg); }
+.cart-qty-stepper span { width: 32px; text-align: center; font-weight: 700; font-size: 0.88rem; }
+
+.cart-item-remove {
+  color: var(--color-red);
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+.cart-item-remove:hover { text-decoration: underline; }
+
+.summary-card { padding: var(--space-5); position: sticky; top: 88px; }
+.summary-card h3 { margin-bottom: var(--space-4); }
+.summary-row { display: flex; justify-content: space-between; font-size: 0.92rem; margin-bottom: var(--space-2); color: var(--color-ink-soft); }
+.summary-divider { height: 1px; background: var(--color-border); margin: var(--space-3) 0; }
+.summary-total { font-weight: 700; color: var(--color-ink); font-size: 1.05rem; }
+.summary-total span:last-child { color: var(--color-blue); font-size: 1.2rem; }
+
+@media (max-width: 800px) {
+  .cart-layout { grid-template-columns: 1fr; }
+  .cart-item-card { grid-template-columns: 70px 1fr; grid-template-rows: auto auto; }
+  .cart-item-card .cart-qty-stepper { grid-column: 2; justify-self: start; }
+  .cart-item-card .cart-item-remove { grid-column: 2; justify-self: start; }
+  .summary-card { position: static; }
+}

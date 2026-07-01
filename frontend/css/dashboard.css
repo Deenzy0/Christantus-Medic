@@ -1,0 +1,61 @@
+.dashboard-section { padding: var(--space-7) 0 var(--space-9); }
+.dashboard-layout {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: var(--space-6);
+  align-items: start;
+}
+
+.dashboard-user-card {
+  background: var(--color-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-5);
+  margin-bottom: var(--space-4);
+  text-align: center;
+}
+.dash-avatar {
+  width: 64px; height: 64px;
+  border-radius: 50%;
+  background: var(--color-blue);
+  color: #fff;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.4rem;
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto var(--space-3);
+}
+.dash-user-name { font-weight: 700; font-size: 1rem; }
+.dash-user-email { font-size: 0.8rem; color: var(--color-ink-soft); margin-top: 2px; word-break: break-all; }
+
+.dashboard-nav { display: flex; flex-direction: column; gap: 2px; background: var(--color-card); border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: var(--space-2); }
+.dash-tab-btn { text-align: left; padding: 11px 14px; border-radius: var(--radius-sm); font-weight: 600; font-size: 0.9rem; color: var(--color-ink-soft); }
+.dash-tab-btn:hover { background: var(--color-bg); }
+.dash-tab-btn.active { background: var(--color-blue-light); color: var(--color-blue); }
+
+.dashboard-content { background: var(--color-card); border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: var(--space-6); min-height: 400px; }
+.dash-panel { display: none; }
+.dash-panel.active { display: block; }
+
+.form-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-4); }
+
+.order-card-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
+  margin-bottom: var(--space-3);
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+.order-card-info .order-num { font-family: var(--font-mono); font-weight: 700; }
+.order-card-info .order-meta { font-size: 0.8rem; color: var(--color-ink-soft); margin-top: 2px; }
+.order-card-right { display: flex; align-items: center; gap: var(--space-3); }
+.order-card-total { font-weight: 700; font-family: var(--font-mono); }
+
+@media (max-width: 800px) {
+  .dashboard-layout { grid-template-columns: 1fr; }
+  .form-row-2 { grid-template-columns: 1fr; }
+}

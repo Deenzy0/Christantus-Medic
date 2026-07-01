@@ -1,0 +1,27 @@
+# Dependencies
+node_modules/
+backend/node_modules/
+
+# Environment variables (NEVER commit secrets)
+.env
+backend/.env
+
+# Logs
+*.log
+npm-debug.log*
+
+# Uploaded files (user content, shouldn't be in version control)
+backend/uploads/*
+!backend/uploads/.gitkeep
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+
+# Build artifacts
+dist/
+build/

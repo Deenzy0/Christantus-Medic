@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Dashboard — Christantus Medical Consult</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/nav.css" />
+  <link rel="stylesheet" href="css/dashboard.css" />
+  <link rel="stylesheet" href="css/scene3d.css" />
+</head>
+<body class="scene3d-dense">
+
+  <header class="site-header" id="site-header"></header>
+
+  <main>
+    <section class="dashboard-section">
+      <div class="container dashboard-layout">
+        <aside class="dashboard-sidebar">
+          <div class="dashboard-user-card" id="dashboard-user-card"></div>
+          <nav class="dashboard-nav">
+            <button class="dash-tab-btn active" data-tab="orders">My Orders</button>
+            <button class="dash-tab-btn" data-tab="profile">Profile Settings</button>
+            <button class="dash-tab-btn" data-tab="password">Change Password</button>
+          </nav>
+        </aside>
+
+        <div class="dashboard-content">
+          <div class="dash-panel active" id="panel-orders">
+            <h2>My Orders</h2>
+            <div id="orders-list" class="mt-4"></div>
+          </div>
+
+          <div class="dash-panel" id="panel-profile">
+            <h2>Profile Settings</h2>
+            <form id="profile-form" class="mt-4">
+              <div class="form-group">
+                <label class="form-label" for="profile-name">Full Name</label>
+                <input type="text" id="profile-name" class="form-input" required />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="profile-email">Email Address</label>
+                <input type="email" id="profile-email" class="form-input" disabled />
+                <span class="form-hint">Email cannot be changed.</span>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="profile-phone">Phone Number</label>
+                <input type="tel" id="profile-phone" class="form-input" />
+              </div>
+              <div class="form-row-2">
+                <div class="form-group">
+                  <label class="form-label" for="profile-street">Street Address</label>
+                  <input type="text" id="profile-street" class="form-input" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="profile-city">City</label>
+                  <input type="text" id="profile-city" class="form-input" />
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="profile-state">State</label>
+                <input type="text" id="profile-state" class="form-input" />
+              </div>
+              <div id="profile-alert" class="auth-alert hidden"></div>
+              <button type="submit" class="btn btn-primary">Save Changes</button>
+            </form>
+          </div>
+
+          <div class="dash-panel" id="panel-password">
+            <h2>Change Password</h2>
+            <form id="password-form" class="mt-4" style="max-width:420px;">
+              <div class="form-group">
+                <label class="form-label" for="current-password">Current Password</label>
+                <input type="password" id="current-password" class="form-input" required />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="new-password">New Password</label>
+                <input type="password" id="new-password" class="form-input" required minlength="6" />
+              </div>
+              <div id="password-alert" class="auth-alert hidden"></div>
+              <button type="submit" class="btn btn-primary">Update Password</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer" id="site-footer"></footer>
+  <script src="js/scene3d.js"></script>
+
+  <script src="js/config.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/dashboard.js"></script>
+</body>
+</html>

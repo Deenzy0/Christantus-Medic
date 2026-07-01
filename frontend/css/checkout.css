@@ -1,0 +1,47 @@
+.checkout-section { padding-bottom: var(--space-9); }
+.checkout-layout {
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: var(--space-6);
+  align-items: start;
+}
+.checkout-card { padding: var(--space-5); margin-bottom: var(--space-5); }
+.checkout-card h3 { display: flex; align-items: center; gap: var(--space-3); margin-bottom: var(--space-4); font-size: 1.05rem; }
+.step-num {
+  width: 26px; height: 26px;
+  border-radius: 50%;
+  background: var(--color-blue);
+  color: #fff;
+  font-size: 0.8rem;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-mono);
+}
+.optional-tag { font-size: 0.78rem; color: var(--color-ink-soft); font-weight: 400; margin-left: -4px; }
+
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-4); }
+
+.payment-options { display: flex; flex-direction: column; gap: var(--space-3); }
+.payment-option {
+  display: flex; align-items: center; gap: var(--space-3);
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
+  cursor: pointer;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+.payment-option.selected, .payment-option:has(input:checked) { border-color: var(--color-blue); background: var(--color-blue-light); }
+.payment-option input { width: 18px; height: 18px; accent-color: var(--color-blue); }
+.payment-option-body { display: flex; flex-direction: column; }
+.payment-option-body span { font-size: 0.82rem; color: var(--color-ink-soft); }
+
+.checkout-items-list { max-height: 280px; overflow-y: auto; margin-bottom: var(--space-3); }
+.checkout-item-row { display: flex; justify-content: space-between; gap: var(--space-3); padding: var(--space-2) 0; font-size: 0.85rem; }
+.checkout-item-row .item-name { color: var(--color-ink); font-weight: 600; flex: 1; }
+.checkout-item-row .item-qty { color: var(--color-ink-soft); }
+.checkout-item-row .item-price { font-family: var(--font-mono); font-weight: 600; }
+
+@media (max-width: 900px) {
+  .checkout-layout { grid-template-columns: 1fr; }
+  .form-row { grid-template-columns: 1fr; }
+  .summary-card { position: static; }
+}

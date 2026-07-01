@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Checkout — Christantus Medical Consult</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/nav.css" />
+  <link rel="stylesheet" href="css/cart.css" />
+  <link rel="stylesheet" href="css/checkout.css" />
+  <link rel="stylesheet" href="css/scene3d.css" />
+</head>
+<body class="scene3d-dense">
+
+  <header class="site-header" id="site-header"></header>
+
+  <main>
+    <section class="page-banner">
+      <div class="container">
+        <h1>Checkout</h1>
+      </div>
+    </section>
+
+    <section class="checkout-section">
+      <div class="container checkout-layout" id="checkout-layout">
+        <div class="checkout-form-col">
+
+          <div class="card checkout-card">
+            <h3><span class="step-num">1</span> Shipping Address</h3>
+            <form id="shipping-form">
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label" for="fullName">Full Name</label>
+                  <input type="text" id="fullName" class="form-input" required />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="phone">Phone Number</label>
+                  <input type="tel" id="phone" class="form-input" required />
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="street">Street Address</label>
+                <input type="text" id="street" class="form-input" placeholder="House number, street name" required />
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label" for="city">City</label>
+                  <input type="text" id="city" class="form-input" required />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="state">State</label>
+                  <input type="text" id="state" class="form-input" required />
+                </div>
+              </div>
+            </form>
+          </div>
+
+          <div class="card checkout-card">
+            <h3><span class="step-num">2</span> Payment Method</h3>
+            <div class="payment-options">
+              <label class="payment-option selected">
+                <input type="radio" name="payment-method" value="paystack" checked />
+                <div class="payment-option-body">
+                  <strong>Pay Online (Paystack)</strong>
+                  <span>Card, bank transfer, or USSD — secure checkout</span>
+                </div>
+              </label>
+              <label class="payment-option">
+                <input type="radio" name="payment-method" value="cash_on_delivery" />
+                <div class="payment-option-body">
+                  <strong>Cash on Delivery</strong>
+                  <span>Pay with cash when your order arrives</span>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <div class="card checkout-card">
+            <h3><span class="step-num">3</span> Order Notes <span class="optional-tag">(optional)</span></h3>
+            <textarea id="orderNotes" class="form-textarea" placeholder="Delivery instructions, prescription details, etc."></textarea>
+          </div>
+
+          <div id="checkout-alert" class="auth-alert hidden"></div>
+        </div>
+
+        <div class="checkout-summary-col">
+          <div class="card summary-card">
+            <h3>Order Summary</h3>
+            <div id="checkout-items-list" class="checkout-items-list"></div>
+            <div class="summary-divider"></div>
+            <div class="summary-row"><span>Subtotal</span><span class="mono" id="co-subtotal">₦0</span></div>
+            <div class="summary-row"><span>Shipping</span><span class="mono" id="co-shipping">₦0</span></div>
+            <div class="summary-divider"></div>
+            <div class="summary-row summary-total"><span>Total</span><span class="mono" id="co-total">₦0</span></div>
+            <button class="btn btn-primary btn-block mt-4" id="place-order-btn">
+              <span class="btn-text">Place Order</span>
+            </button>
+            <p class="form-hint text-center mt-2">By placing your order you agree to our Terms & Conditions.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="empty-state hidden" id="checkout-empty">
+        <p>Your cart is empty. Add products before checking out.</p>
+        <a href="shop.html" class="btn btn-primary mt-3">Browse Products</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer" id="site-footer"></footer>
+  <script src="js/scene3d.js"></script>
+
+  <script src="js/config.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/product-card.js"></script>
+  <script src="js/checkout.js"></script>
+</body>
+</html>

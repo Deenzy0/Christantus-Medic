@@ -1,0 +1,21 @@
+.callback-section {
+  min-height: calc(100vh - 180px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-6);
+}
+.callback-card {
+  max-width: 440px;
+  width: 100%;
+  text-align: center;
+  padding: var(--space-7) var(--space-6);
+}
+.spinner-lg { width: 40px; height: 40px; border-width: 3.5px; margin: 0 auto var(--space-5); }
+.callback-card h2 { font-size: 1.3rem; margin-bottom: var(--space-2); }
+.callback-card p { font-size: 0.9rem; }
+.callback-icon { width: 64px; height: 64px; margin: 0 auto var(--space-5); border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+.callback-icon.success { background: var(--color-green-light); color: var(--color-green-dark); }
+.callback-icon.error { background: #FDE8ED; color: var(--color-red); }
+.callback-icon svg { width: 32px; height: 32px; }
+.callback-actions { display: flex; flex-direction: column; gap: var(--space-3); margin-top: var(--space-5); }

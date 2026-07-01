@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Manage Consultations — Christantus Medical Consult</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/admin.css" />
+  <link rel="stylesheet" href="css/scene3d.css" />
+</head>
+<body class="admin-body scene3d-dense">
+
+  <div class="admin-shell">
+    <aside class="admin-sidebar" id="admin-sidebar"></aside>
+
+    <main class="admin-main">
+      <div class="admin-topbar">
+        <div>
+          <h1>Consultations</h1>
+          <p>Review and manage booked patient consultations.</p>
+        </div>
+      </div>
+
+      <div class="admin-table-card">
+        <div class="admin-table-toolbar">
+          <input type="text" id="consult-search" class="form-input" placeholder="Search by name or email..." />
+          <select id="consult-status-filter" class="form-select">
+            <option value="All">All Statuses</option>
+            <option value="pending">Pending</option>
+            <option value="confirmed">Confirmed</option>
+            <option value="completed">Completed</option>
+            <option value="cancelled">Cancelled</option>
+          </select>
+        </div>
+        <div class="admin-table-wrap">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Patient</th>
+                <th>Type</th>
+                <th>Preferred Date</th>
+                <th>Time</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="consult-table-body">
+              <tr><td colspan="6" class="text-center" style="padding:40px;">Loading...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Consultation Detail / Update Modal -->
+  <div class="modal-overlay hidden" id="consult-modal-overlay">
+    <div class="modal-box" style="max-width:480px;">
+      <div class="modal-header">
+        <h3>Consultation Details</h3>
+        <button class="modal-close" id="consult-modal-close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
+      </div>
+      <div id="consult-modal-body"></div>
+      <div class="form-group mt-4">
+        <label class="form-label">Update Status</label>
+        <select id="consult-status-select" class="form-select">
+          <option value="pending">Pending</option>
+          <option value="confirmed">Confirmed</option>
+          <option value="completed">Completed</option>
+          <option value="cancelled">Cancelled</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Admin Note <span class="optional-tag">internal only</span></label>
+        <textarea id="consult-admin-note" class="form-textarea" style="min-height:80px;" placeholder="e.g. Confirmed by phone, assigned to Pharm. Okeke"></textarea>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-ghost" id="consult-modal-cancel">Cancel</button>
+        <button class="btn btn-primary" id="consult-save-btn">Save Changes</button>
+      </div>
+    </div>
+  </div>
+  <script src="js/scene3d.js"></script>
+
+  <script src="js/config.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/admin-layout.js"></script>
+  <script src="js/admin-consultations.js"></script>
+</body>
+</html>

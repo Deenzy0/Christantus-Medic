@@ -1,0 +1,498 @@
+/* ===========================================================
+   CHRISTANTUS MEDICAL CONSULT — CORE DESIGN SYSTEM
+   Theme: clinical blue / medical green, label & receipt motifs
+   Upgraded with: layered shadow system, glass system, and a
+   restrained motion system calibrated for healthcare trust
+   (depth and polish — not novelty effects).
+   =========================================================== */
+
+/* ---------------------------------------------------------
+   1. ROOT TOKENS — colors, type, spacing, radii
+   --------------------------------------------------------- */
+:root {
+  --color-blue: #0B5FFF;
+  --color-blue-dark: #0A4ACC;
+  --color-blue-light: #E8F0FF;
+  --color-green: #0E9F6E;
+  --color-green-dark: #0B7F58;
+  --color-green-light: #E5F7EF;
+  --color-ink: #0A1F33;
+  --color-ink-soft: #44566B;
+  --color-bg: #F7FAFC;
+  --color-card: #FFFFFF;
+  --color-border: #E1E8F0;
+  --color-red: #E11D48;
+  --color-amber: #D97706;
+
+  --color-blue-rgb: 11, 95, 255;
+  --color-ink-rgb: 10, 31, 51;
+  --color-green-rgb: 14, 159, 110;
+
+  --font-display: 'Manrope', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+  --space-9: 96px;
+
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+
+  /* ---------------------------------------------------------
+     2. SHADOW SYSTEM — reusable elevation scale, tinted with
+     the brand ink color rather than pure black, so depth reads
+     as "soft clinical" rather than harsh/dramatic.
+     --------------------------------------------------------- */
+  --shadow-xs: 0 1px 2px rgba(var(--color-ink-rgb), 0.05);
+  --shadow-sm: 0 1px 2px rgba(var(--color-ink-rgb), 0.06), 0 1px 1px rgba(var(--color-ink-rgb), 0.04);
+  --shadow-md: 0 6px 18px -2px rgba(var(--color-ink-rgb), 0.10), 0 2px 6px rgba(var(--color-ink-rgb), 0.05);
+  --shadow-lg: 0 16px 40px -8px rgba(var(--color-ink-rgb), 0.16), 0 4px 12px rgba(var(--color-ink-rgb), 0.06);
+  --shadow-xl: 0 28px 64px -12px rgba(var(--color-ink-rgb), 0.22), 0 8px 20px rgba(var(--color-ink-rgb), 0.08);
+
+  --glow-blue: 0 8px 24px -4px rgba(var(--color-blue-rgb), 0.35);
+  --glow-blue-soft: 0 4px 14px -2px rgba(var(--color-blue-rgb), 0.22);
+  --glow-green: 0 8px 24px -4px rgba(var(--color-green-rgb), 0.32);
+
+  /* ---------------------------------------------------------
+     3. GLASS SYSTEM — frosted-glass recipe used by the header,
+     mobile drawer, and modals. Subtle blur, soft border, low
+     opacity tint — legible over any background, never gimmicky.
+     --------------------------------------------------------- */
+  --glass-bg: rgba(255, 255, 255, 0.72);
+  --glass-bg-strong: rgba(255, 255, 255, 0.86);
+  --glass-border: rgba(255, 255, 255, 0.5);
+  --glass-blur: 18px;
+
+  /* ---------------------------------------------------------
+     4. MOTION SYSTEM — shared easing curves + durations so
+     every transition feels designed by one hand, not a grab-bag.
+     --------------------------------------------------------- */
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-out-soft: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --duration-fast: 0.15s;
+  --duration-base: 0.25s;
+  --duration-slow: 0.45s;
+
+  --max-width: 1240px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ---------------------------------------------------------
+   5. RESET & BASE ELEMENTS
+   --------------------------------------------------------- */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-body);
+  color: var(--color-ink);
+  /* Background now lives on .scene3d-root (fixed, behind content);
+     body stays transparent so the 3D scene shows through everywhere. */
+  background: transparent;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  position: relative;
+}
+
+/* Explicit stacking: everything that is a direct child of <body>
+   EXCEPT the injected .scene3d-root sits above the fixed 3D scene.
+   Belt-and-suspenders alongside the scene's own z-index:-1 — keeps
+   real content readable even if a page's own CSS sets a stacking
+   context that would otherwise interfere. */
+body > *:not(.scene3d-root) {
+  position: relative;
+  z-index: 1;
+}
+
+img { max-width: 100%; display: block; }
+a { color: inherit; text-decoration: none; }
+button { font-family: inherit; cursor: pointer; border: none; background: none; }
+input, select, textarea { font-family: inherit; font-size: inherit; color: inherit; }
+
+:focus-visible {
+  outline: 2px solid var(--color-blue);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.container {
+  width: 100%;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 var(--space-5);
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  color: var(--color-ink);
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+}
+
+h1 { font-size: clamp(2rem, 4vw, 3.25rem); }
+h2 { font-size: clamp(1.6rem, 3vw, 2.25rem); }
+h3 { font-size: 1.3rem; }
+h4 { font-size: 1.05rem; }
+
+p { color: var(--color-ink-soft); }
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-blue);
+  font-weight: 600;
+}
+
+/* ---------------------------------------------------------
+   6. BUTTONS — lift + soft glow on hover, satisfying press on
+   click. No 3D rotation: buttons get pressed constantly, so the
+   effect needs to stay fast and calm rather than playful.
+   --------------------------------------------------------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: 13px 26px;
+  border-radius: var(--radius-md);
+  font-weight: 700;
+  font-size: 0.95rem;
+  white-space: nowrap;
+  position: relative;
+  transition:
+    transform var(--duration-base) var(--ease-out-soft),
+    box-shadow var(--duration-base) var(--ease-out-soft),
+    background var(--duration-fast) var(--ease-standard);
+  will-change: transform;
+}
+.btn:active { transform: translateY(1px) scale(0.98); }
+
+.btn-primary { background: var(--color-blue); color: #fff; box-shadow: var(--shadow-sm); }
+.btn-primary:hover { background: var(--color-blue-dark); box-shadow: var(--glow-blue); transform: translateY(-2px); }
+
+.btn-secondary { background: var(--color-green); color: #fff; box-shadow: var(--shadow-sm); }
+.btn-secondary:hover { background: var(--color-green-dark); box-shadow: var(--glow-green); transform: translateY(-2px); }
+
+.btn-outline { background: transparent; color: var(--color-blue); border: 1.5px solid var(--color-blue); }
+.btn-outline:hover { background: var(--color-blue-light); transform: translateY(-2px); box-shadow: var(--shadow-sm); }
+
+.btn-ghost { background: transparent; color: var(--color-ink); }
+.btn-ghost:hover { background: rgba(10, 31, 51, 0.05); }
+
+.btn-danger { background: var(--color-red); color: #fff; }
+.btn-danger:hover { opacity: 0.92; transform: translateY(-2px); box-shadow: 0 8px 20px -4px rgba(225, 29, 72, 0.35); }
+
+.btn-block { width: 100%; }
+.btn-sm { padding: 8px 16px; font-size: 0.85rem; }
+
+.btn:disabled { opacity: 0.55; cursor: not-allowed; transform: none !important; box-shadow: none !important; }
+
+/* ---------------------------------------------------------
+   7. CARDS — base reusable lift pattern.
+   --------------------------------------------------------- */
+.card {
+  background: var(--color-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--duration-base) var(--ease-out-soft), box-shadow var(--duration-base) var(--ease-out-soft);
+}
+
+/* ---------------------------------------------------------
+   8. FORMS — gentle lift + ring glow on focus instead of a
+   flat border-color swap. Validation states animate in.
+   --------------------------------------------------------- */
+.form-group { margin-bottom: var(--space-4); }
+
+.form-label {
+  display: block;
+  font-weight: 600;
+  font-size: 0.88rem;
+  margin-bottom: var(--space-2);
+  color: var(--color-ink);
+  transition: color var(--duration-fast) var(--ease-standard);
+}
+
+.form-input, .form-select, .form-textarea {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  font-size: 0.95rem;
+  background: #fff;
+  transition:
+    border-color var(--duration-fast) var(--ease-standard),
+    box-shadow var(--duration-base) var(--ease-out-soft),
+    transform var(--duration-base) var(--ease-out-soft);
+}
+.form-input:focus, .form-select:focus, .form-textarea:focus {
+  border-color: var(--color-blue);
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(var(--color-blue-rgb), 0.12), var(--shadow-sm);
+}
+.form-group:has(.form-input:focus) .form-label,
+.form-group:has(.form-textarea:focus) .form-label { color: var(--color-blue); }
+.form-textarea { resize: vertical; min-height: 110px; }
+
+.form-hint { font-size: 0.8rem; color: var(--color-ink-soft); margin-top: var(--space-1); }
+
+.form-error {
+  font-size: 0.82rem;
+  color: var(--color-red);
+  margin-top: var(--space-1);
+  display: none;
+  opacity: 0;
+  transform: translateY(-4px);
+  transition: opacity var(--duration-base) var(--ease-out-soft), transform var(--duration-base) var(--ease-out-soft);
+}
+.form-error.visible { display: block; opacity: 1; transform: translateY(0); }
+.form-input.invalid { border-color: var(--color-red); animation: shakeInvalid 0.4s var(--ease-standard); }
+@keyframes shakeInvalid {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-4px); }
+  75% { transform: translateX(4px); }
+}
+
+/* ---------------------------------------------------------
+   9. BADGES
+   --------------------------------------------------------- */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 0.74rem;
+  font-weight: 700;
+  font-family: var(--font-mono);
+  letter-spacing: 0.02em;
+}
+.badge-green { background: var(--color-green-light); color: var(--color-green-dark); }
+.badge-blue { background: var(--color-blue-light); color: var(--color-blue-dark); }
+.badge-red { background: #FDE8ED; color: var(--color-red); }
+.badge-amber { background: #FEF3E2; color: var(--color-amber); }
+.badge-grey { background: #EDF1F5; color: var(--color-ink-soft); }
+
+/* ---------------------------------------------------------
+   10. SITE HEADER — floating glass navbar.
+   --------------------------------------------------------- */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  /* Explicit + higher than the generic body>* rule (which sets
+     z-index:1) so the sticky header reliably stays on top of both
+     the 3D scene AND normal page content while scrolling. */
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur)) saturate(160%);
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(160%);
+  border-bottom: 1px solid var(--color-border);
+  transition: box-shadow var(--duration-base) var(--ease-standard), background var(--duration-base) var(--ease-standard);
+}
+.site-header.scrolled { background: var(--glass-bg-strong); box-shadow: var(--shadow-md); }
+
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-3) 0;
+  gap: var(--space-5);
+}
+.brand {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.15rem;
+  color: var(--color-ink);
+}
+.brand-mark {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: var(--color-blue);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: var(--glow-blue-soft);
+  transition: transform var(--duration-base) var(--ease-spring);
+}
+.brand:hover .brand-mark { transform: rotate(-6deg) scale(1.06); }
+.brand-mark svg { width: 20px; height: 20px; }
+
+.nav-links { display: flex; align-items: center; gap: var(--space-6); font-weight: 600; font-size: 0.92rem; }
+.nav-links a { color: var(--color-ink-soft); transition: color var(--duration-fast) var(--ease-standard); position: relative; padding-bottom: 4px; }
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  left: 0; bottom: -2px;
+  width: 100%; height: 2px;
+  background: var(--color-blue);
+  border-radius: 2px;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--duration-base) var(--ease-out-soft);
+}
+.nav-links a:hover, .nav-links a.active { color: var(--color-blue); }
+.nav-links a:hover::after, .nav-links a.active::after { transform: scaleX(1); }
+
+.header-actions { display: flex; align-items: center; gap: var(--space-3); }
+
+.icon-btn {
+  position: relative;
+  width: 40px; height: 40px;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 10px;
+  color: var(--color-ink);
+  transition: background var(--duration-fast) var(--ease-standard), transform var(--duration-base) var(--ease-out-soft);
+}
+.icon-btn:hover { background: rgba(10, 31, 51, 0.06); transform: translateY(-1px); }
+.icon-btn svg { width: 21px; height: 21px; }
+
+.cart-count {
+  position: absolute; top: 2px; right: 2px;
+  background: var(--color-red);
+  color: #fff;
+  font-size: 0.62rem; font-weight: 700;
+  width: 17px; height: 17px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-mono);
+  animation: cartPulse 0.35s var(--ease-spring);
+}
+@keyframes cartPulse {
+  0% { transform: scale(0.6); }
+  60% { transform: scale(1.15); }
+  100% { transform: scale(1); }
+}
+
+.mobile-menu-btn { display: none; }
+
+/* ---------------------------------------------------------
+   11. FOOTER
+   --------------------------------------------------------- */
+.site-footer { background: var(--color-ink); color: #C8D4E0; padding: var(--space-8) 0 var(--space-5); margin-top: var(--space-9); }
+.footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1.2fr; gap: var(--space-6); padding-bottom: var(--space-6); border-bottom: 1px solid rgba(255,255,255,0.1); }
+.footer-brand { display: flex; align-items: center; gap: var(--space-2); color: #fff; font-family: var(--font-display); font-weight: 800; margin-bottom: var(--space-3); }
+.footer-col h4 { color: #fff; font-size: 0.92rem; margin-bottom: var(--space-3); }
+.footer-col a, .footer-col p { display: block; color: #9FB1C4; font-size: 0.88rem; margin-bottom: var(--space-2); transition: color var(--duration-fast) var(--ease-standard), transform var(--duration-fast) var(--ease-standard); }
+.footer-col a:hover { color: #fff; transform: translateX(2px); }
+.footer-bottom { display: flex; justify-content: space-between; align-items: center; padding-top: var(--space-5); font-size: 0.82rem; color: #7E92A8; flex-wrap: wrap; gap: var(--space-3); }
+
+/* ---------------------------------------------------------
+   12. UTILITIES
+   --------------------------------------------------------- */
+.text-center { text-align: center; }
+.mt-1 { margin-top: var(--space-1); } .mt-2 { margin-top: var(--space-2); } .mt-3 { margin-top: var(--space-3); }
+.mt-4 { margin-top: var(--space-4); } .mt-5 { margin-top: var(--space-5); } .mt-6 { margin-top: var(--space-6); }
+.mb-1 { margin-bottom: var(--space-1); } .mb-2 { margin-bottom: var(--space-2); } .mb-3 { margin-bottom: var(--space-3); }
+.mb-4 { margin-bottom: var(--space-4); } .mb-5 { margin-bottom: var(--space-5); } .mb-6 { margin-bottom: var(--space-6); }
+.flex { display: flex; }
+.flex-col { display: flex; flex-direction: column; }
+.items-center { align-items: center; }
+.justify-between { justify-content: space-between; }
+.gap-2 { gap: var(--space-2); } .gap-3 { gap: var(--space-3); } .gap-4 { gap: var(--space-4); }
+.hidden { display: none !important; }
+.mono { font-family: var(--font-mono); }
+
+.form-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-4); }
+.optional-tag { font-size: 0.78rem; color: var(--color-ink-soft); font-weight: 400; }
+
+@media (max-width: 640px) {
+  .form-row-2 { grid-template-columns: 1fr; }
+}
+
+/* ---------------------------------------------------------
+   13. TOAST NOTIFICATIONS
+   --------------------------------------------------------- */
+.toast-container { position: fixed; bottom: var(--space-5); right: var(--space-5); z-index: 1000; display: flex; flex-direction: column; gap: var(--space-2); }
+.toast {
+  background: var(--color-ink);
+  color: #fff;
+  padding: 13px 18px;
+  border-radius: var(--radius-sm);
+  font-size: 0.88rem;
+  font-weight: 600;
+  box-shadow: var(--shadow-lg);
+  display: flex; align-items: center; gap: var(--space-2);
+  animation: toastIn var(--duration-slow) var(--ease-spring);
+  max-width: 320px;
+}
+.toast.success { background: var(--color-green-dark); }
+.toast.error { background: var(--color-red); }
+@keyframes toastIn {
+  from { opacity: 0; transform: translateY(16px) scale(0.96); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* ---------------------------------------------------------
+   14. LOADING SPINNER
+   --------------------------------------------------------- */
+.spinner { width: 20px; height: 20px; border: 2.5px solid rgba(255,255,255,0.4); border-top-color: #fff; border-radius: 50%; animation: spin 0.7s linear infinite; }
+.spinner-blue { border: 2.5px solid var(--color-blue-light); border-top-color: var(--color-blue); }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ---------------------------------------------------------
+   15. EMPTY STATES
+   --------------------------------------------------------- */
+.empty-state { text-align: center; padding: var(--space-8) var(--space-5); color: var(--color-ink-soft); }
+.empty-state svg { width: 56px; height: 56px; color: var(--color-border); margin-bottom: var(--space-4); animation: gentleFloat 3.5s var(--ease-standard) infinite; }
+@keyframes gentleFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+/* ---------------------------------------------------------
+   16. SCROLL-REVEAL SYSTEM — opt-in via data-reveal attribute.
+   Falls back to fully visible if JS/observer never attaches,
+   so nothing breaks if a page doesn't wire up the observer.
+   --------------------------------------------------------- */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity var(--duration-slow) var(--ease-out-soft), transform var(--duration-slow) var(--ease-out-soft);
+}
+[data-reveal].is-visible { opacity: 1; transform: translateY(0); }
+html:not(.reveal-ready) [data-reveal] { opacity: 1; transform: none; }
+
+/* ---------------------------------------------------------
+   17. MOBILE RESPONSIVE
+   --------------------------------------------------------- */
+@media (max-width: 900px) {
+  .footer-grid { grid-template-columns: 1fr 1fr; gap: var(--space-5); }
+}
+
+@media (max-width: 768px) {
+  .nav-links { display: none; }
+  .mobile-menu-btn { display: flex; }
+  .footer-grid { grid-template-columns: 1fr; }
+  .container { padding: 0 var(--space-4); }
+}
+
+@media (hover: none) {
+  .btn:hover, .card:hover, .icon-btn:hover, .brand:hover .brand-mark {
+    transform: none !important;
+  }
+}

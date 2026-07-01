@@ -1,0 +1,61 @@
+/* Mobile nav drawer — appended behavior to header in style.css */
+
+.mobile-drawer {
+  position: fixed;
+  top: 0; right: 0; bottom: 0;
+  width: min(82vw, 340px);
+  background: #fff;
+  z-index: 200;
+  box-shadow: -10px 0 30px rgba(10,31,51,0.15);
+  transform: translateX(100%);
+  transition: transform 0.25s ease;
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-5);
+}
+.mobile-drawer.open { transform: translateX(0); }
+
+.mobile-drawer-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(10,31,51,0.4);
+  z-index: 199;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+.mobile-drawer-overlay.open { opacity: 1; pointer-events: auto; }
+
+.mobile-drawer-close {
+  align-self: flex-end;
+  width: 36px; height: 36px;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 8px;
+  margin-bottom: var(--space-5);
+}
+.mobile-drawer-close:hover { background: var(--color-bg); }
+
+.mobile-drawer nav {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+.mobile-drawer nav a {
+  padding: 13px 8px;
+  font-weight: 700;
+  font-size: 1.02rem;
+  border-bottom: 1px solid var(--color-border);
+  color: var(--color-ink);
+}
+.mobile-drawer nav a:hover { color: var(--color-blue); }
+
+.mobile-drawer .drawer-actions {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+@media (min-width: 769px) {
+  .mobile-drawer, .mobile-drawer-overlay { display: none; }
+}

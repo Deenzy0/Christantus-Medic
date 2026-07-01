@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shop — Christantus Medical Consult</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/nav.css" />
+  <link rel="stylesheet" href="css/product-card.css" />
+  <link rel="stylesheet" href="css/shop.css" />
+  <link rel="stylesheet" href="css/scene3d.css" />
+</head>
+<body>
+
+  <header class="site-header" id="site-header"></header>
+
+  <main>
+    <section class="shop-banner">
+      <div class="container">
+        <span class="eyebrow">Pharmacy & Shop</span>
+        <h1>Find what your health needs</h1>
+        <p>Search our full catalogue of medications, supplements, and medical devices.</p>
+        <div class="shop-search">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+          <input type="text" id="search-input" placeholder="Search for medications, brands, or symptoms..." />
+        </div>
+      </div>
+    </section>
+
+    <section class="shop-body">
+      <div class="container shop-layout">
+        <aside class="shop-filters">
+          <div class="filter-group">
+            <h4>Category</h4>
+            <div id="category-list" class="category-list">
+              <button class="category-item active" data-category="All">All Products</button>
+            </div>
+          </div>
+          <div class="filter-group">
+            <h4>Sort by</h4>
+            <select id="sort-select" class="form-select">
+              <option value="">Newest</option>
+              <option value="popular">Most Popular</option>
+              <option value="price_asc">Price: Low to High</option>
+              <option value="price_desc">Price: High to Low</option>
+              <option value="name_asc">Name: A-Z</option>
+            </select>
+          </div>
+          <div class="filter-group">
+            <h4>Price Range (₦)</h4>
+            <div class="flex gap-2">
+              <input type="number" id="min-price" class="form-input" placeholder="Min" />
+              <input type="number" id="max-price" class="form-input" placeholder="Max" />
+            </div>
+            <button class="btn btn-outline btn-sm btn-block mt-3" id="apply-price-btn">Apply</button>
+          </div>
+        </aside>
+
+        <div class="shop-results">
+          <div class="shop-results-head">
+            <span id="results-count" class="mono">Loading...</span>
+          </div>
+          <div class="product-grid" id="product-grid"></div>
+          <div class="pagination" id="pagination"></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer" id="site-footer"></footer>
+  <script src="js/scene3d.js"></script>
+
+  <script src="js/config.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/product-card.js"></script>
+  <script src="js/shop.js"></script>
+</body>
+</html>

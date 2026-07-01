@@ -1,0 +1,103 @@
+/* ===========================================================
+   3D SCENE BACKGROUND — site-wide floating glass panels
+   ===========================================================
+   A fixed, full-screen 3D scene sitting behind all page content.
+   Built with real CSS 3D (perspective + preserve-3d), not 2D
+   tricks faking depth. Panels sit at different translateZ()
+   depths; scroll position drives a CSS variable that gently
+   rotates/shifts the whole scene, so depth visibly changes as
+   the user scrolls — handled by a small JS hook in scene3d.js
+   (just reads scrollY, no animation library).
+
+   Layering rule: the scene is always BEHIND content (z-index
+   negative, fixed position, pointer-events: none) and panels are
+   kept semi-transparent / low-contrast so text in front of them
+   stays fully readable on every page, including dense tables and
+   forms. Boldness lives in the depth/motion, not in obscuring
+   content.
+   =========================================================== */
+
+:root {
+  --scene-scroll-rotate: 0deg;
+  --scene-scroll-shift: 0px;
+}
+
+.scene3d-root {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+  perspective: 1400px;
+  perspective-origin: 50% 40%;
+  background: var(--color-bg);
+}
+
+.scene3d-stage {
+  position: absolute;
+  inset: -10%;
+  width: 120%;
+  height: 120%;
+  transform-style: preserve-3d;
+  transform: rotateX(calc(var(--scene-scroll-rotate) * 0.4)) rotateY(calc(var(--scene-scroll-rotate) * -0.6)) translateZ(calc(var(--scene-scroll-shift) * -1px));
+  transition: transform 0.05s linear;
+  will-change: transform;
+}
+
+.scene3d-panel {
+  position: absolute;
+  top: var(--py, 50%);
+  left: var(--px, 50%);
+  width: var(--pw, 180px);
+  height: var(--ph, 180px);
+  border-radius: var(--pr, 24px);
+  background: linear-gradient(135deg, rgba(var(--color-blue-rgb), var(--p-alpha, 0.10)), rgba(var(--color-green-rgb), calc(var(--p-alpha, 0.10) * 0.7)));
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  box-shadow: var(--shadow-md);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  transform-style: preserve-3d;
+  transform: translate(-50%, -50%) translateZ(var(--pz, 0px)) rotateX(var(--prx, 0deg)) rotateY(var(--pry, 0deg)) rotateZ(var(--prz, 0deg));
+  animation: scene3dFloat var(--p-duration, 9s) ease-in-out infinite;
+  animation-delay: var(--p-delay, 0s);
+}
+
+@keyframes scene3dFloat {
+  0%, 100% {
+    transform: translate(-50%, -50%) translateZ(var(--pz, 0px)) translateY(0) rotateX(var(--prx, 0deg)) rotateY(var(--pry, 0deg)) rotateZ(var(--prz, 0deg));
+  }
+  50% {
+    transform: translate(-50%, -50%) translateZ(calc(var(--pz, 0px) + 24px)) translateY(-16px) rotateX(calc(var(--prx, 0deg) + 6deg)) rotateY(calc(var(--pry, 0deg) - 6deg)) rotateZ(var(--prz, 0deg));
+  }
+}
+
+.scene3d-panel.is-far {
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  opacity: 0.6;
+}
+.scene3d-panel.is-near {
+  box-shadow: var(--shadow-lg);
+}
+
+/* Page-type intensity dial: dense/form pages get lower panel
+   opacity for legibility; depth and motion stay identical. */
+body.scene3d-dense .scene3d-panel { --p-alpha: 0.06; }
+
+@media (prefers-reduced-motion: reduce) {
+  .scene3d-stage { transform: none !important; transition: none !important; }
+  .scene3d-panel { animation: none !important; opacity: 0.18 !important; }
+}
+
+@media (max-width: 768px) {
+  .scene3d-root { perspective: 900px; }
+  .scene3d-panel.is-mobile-hidden { display: none; }
+  .scene3d-panel {
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+  }
+}
+
+@supports not (backdrop-filter: blur(1px)) {
+  .scene3d-panel { background: rgba(var(--color-blue-rgb), 0.08); }
+}

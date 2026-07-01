@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Your Cart — Christantus Medical Consult</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/nav.css" />
+  <link rel="stylesheet" href="css/cart.css" />
+  <link rel="stylesheet" href="css/scene3d.css" />
+</head>
+<body>
+
+  <header class="site-header" id="site-header"></header>
+
+  <main>
+    <section class="page-banner">
+      <div class="container">
+        <h1>Your Cart</h1>
+      </div>
+    </section>
+
+    <section class="cart-section">
+      <div class="container">
+        <div class="cart-layout" id="cart-layout">
+          <div class="cart-items-col">
+            <div id="cart-items-list"></div>
+          </div>
+          <div class="cart-summary-col">
+            <div class="card summary-card">
+              <h3>Order Summary</h3>
+              <div class="summary-row"><span>Subtotal</span><span class="mono" id="summary-subtotal">₦0</span></div>
+              <div class="summary-row"><span>Shipping</span><span class="mono" id="summary-shipping">₦0</span></div>
+              <p class="form-hint" id="free-shipping-hint"></p>
+              <div class="summary-divider"></div>
+              <div class="summary-row summary-total"><span>Total</span><span class="mono" id="summary-total">₦0</span></div>
+              <a href="checkout.html" class="btn btn-primary btn-block mt-4" id="checkout-btn">Proceed to Checkout</a>
+              <a href="shop.html" class="btn btn-ghost btn-block mt-2">Continue Shopping</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="empty-state hidden" id="cart-empty">
+          <p>Your cart is empty.</p>
+          <a href="shop.html" class="btn btn-primary mt-3">Browse Products</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer" id="site-footer"></footer>
+  <script src="js/scene3d.js"></script>
+
+  <script src="js/config.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/product-card.js"></script>
+  <script src="js/cart-page.js"></script>
+</body>
+</html>

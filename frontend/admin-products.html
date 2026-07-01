@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Manage Products — Christantus Medical Consult</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/admin.css" />
+  <link rel="stylesheet" href="css/scene3d.css" />
+</head>
+<body class="admin-body scene3d-dense">
+
+  <div class="admin-shell">
+    <aside class="admin-sidebar" id="admin-sidebar"></aside>
+
+    <main class="admin-main">
+      <div class="admin-topbar">
+        <div>
+          <h1>Products</h1>
+          <p>Add, edit, or remove items from your catalogue.</p>
+        </div>
+        <button class="btn btn-primary" id="add-product-btn">+ Add Product</button>
+      </div>
+
+      <div class="admin-table-card">
+        <div class="admin-table-toolbar">
+          <input type="text" id="product-search" class="form-input" placeholder="Search products..." />
+          <select id="product-status-filter" class="form-select">
+            <option value="all">All Products</option>
+            <option value="active">Active Only</option>
+            <option value="inactive">Inactive Only</option>
+            <option value="low-stock">Low Stock (&le;10)</option>
+          </select>
+        </div>
+        <div class="admin-table-wrap">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Product</th>
+                <th>Category</th>
+                <th>Price</th>
+                <th>Stock</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="products-table-body">
+              <tr><td colspan="6" class="text-center" style="padding:40px;">Loading...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Add / Edit Product Modal -->
+  <div class="modal-overlay hidden" id="product-modal-overlay">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 id="product-modal-title">Add Product</h3>
+        <button class="modal-close" id="product-modal-close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
+      </div>
+      <form id="product-form">
+        <input type="hidden" id="product-id" />
+
+        <div class="image-upload-box" id="image-upload-box">
+          <img id="image-preview" class="image-upload-preview" alt="Preview" />
+          <p style="font-size:0.85rem;color:var(--color-ink-soft);">Click to upload a product image (PNG, JPG, WEBP — max 5MB)</p>
+          <input type="file" id="product-image-input" accept=".png,.jpg,.jpeg,.webp" class="hidden" />
+        </div>
+
+        <div class="form-group mt-4">
+          <label class="form-label">Product Name</label>
+          <input type="text" id="form-name" class="form-input" required />
+        </div>
+
+        <div class="form-row-2">
+          <div class="form-group">
+            <label class="form-label">Category</label>
+            <select id="form-category" class="form-select" required>
+              <option value="Pain Relief">Pain Relief</option>
+              <option value="Antibiotics">Antibiotics</option>
+              <option value="Vitamins & Supplements">Vitamins & Supplements</option>
+              <option value="First Aid">First Aid</option>
+              <option value="Baby & Mother Care">Baby & Mother Care</option>
+              <option value="Skin Care">Skin Care</option>
+              <option value="Diabetes Care">Diabetes Care</option>
+              <option value="Heart & Blood Pressure">Heart & Blood Pressure</option>
+              <option value="Cold & Flu">Cold & Flu</option>
+              <option value="Personal Care">Personal Care</option>
+              <option value="Medical Devices">Medical Devices</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Brand</label>
+            <input type="text" id="form-brand" class="form-input" placeholder="e.g. Emzor" />
+          </div>
+        </div>
+
+        <div class="form-row-2">
+          <div class="form-group">
+            <label class="form-label">Price (₦)</label>
+            <input type="number" id="form-price" class="form-input" min="0" step="0.01" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Discount Price (₦) <span class="optional-tag">optional</span></label>
+            <input type="number" id="form-discount-price" class="form-input" min="0" step="0.01" />
+          </div>
+        </div>
+
+        <div class="form-row-2">
+          <div class="form-group">
+            <label class="form-label">Stock Quantity</label>
+            <input type="number" id="form-stock" class="form-input" min="0" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Requires Prescription?</label>
+            <select id="form-rx" class="form-select">
+              <option value="false">No</option>
+              <option value="true">Yes</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Short Description</label>
+          <input type="text" id="form-short-desc" class="form-input" maxlength="200" placeholder="One-line summary shown on product cards" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Full Description</label>
+          <textarea id="form-description" class="form-textarea" required></textarea>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Dosage Info <span class="optional-tag">optional</span></label>
+          <textarea id="form-dosage" class="form-textarea" style="min-height:70px;"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Manufacturer <span class="optional-tag">optional</span></label>
+          <input type="text" id="form-manufacturer" class="form-input" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Active (visible in shop)?</label>
+          <select id="form-active" class="form-select">
+            <option value="true">Active</option>
+            <option value="false">Inactive (hidden)</option>
+          </select>
+        </div>
+
+        <div id="product-form-alert" class="auth-alert hidden"></div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-ghost" id="product-cancel-btn">Cancel</button>
+          <button type="submit" class="btn btn-primary" id="product-save-btn">
+            <span class="btn-text">Save Product</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Delete confirmation modal -->
+  <div class="modal-overlay hidden" id="delete-modal-overlay">
+    <div class="modal-box" style="max-width:400px;">
+      <h3>Delete this product?</h3>
+      <p class="mt-2" style="font-size:0.9rem;">This action cannot be undone. The product will be permanently removed from your catalogue.</p>
+      <div class="modal-footer">
+        <button class="btn btn-ghost" id="delete-cancel-btn">Cancel</button>
+        <button class="btn btn-danger" id="delete-confirm-btn">Delete</button>
+      </div>
+    </div>
+  </div>
+  <script src="js/scene3d.js"></script>
+
+  <script src="js/config.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/product-card.js"></script>
+  <script src="js/admin-layout.js"></script>
+  <script src="js/admin-products.js"></script>
+</body>
+</html>

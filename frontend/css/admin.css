@@ -1,0 +1,222 @@
+/* ===== Admin Layout ===== */
+/* Transparent so the site-wide .scene3d-root background shows
+   through; admin pages get the "dense content" dial (lower panel
+   opacity) via body.scene3d-dense, set directly in each admin
+   HTML page's <body> tag. */
+.admin-body { background: transparent; min-height: 100vh; }
+
+.admin-shell {
+  display: grid;
+  grid-template-columns: 250px 1fr;
+  min-height: 100vh;
+  position: relative;
+  z-index: 1;
+}
+
+.admin-sidebar {
+  background: var(--color-ink);
+  color: #C8D4E0;
+  padding: var(--space-5);
+  display: flex;
+  flex-direction: column;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+}
+.admin-brand {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: #fff;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.02rem;
+  margin-bottom: var(--space-7);
+}
+.admin-brand .brand-mark { width: 32px; height: 32px; }
+.admin-brand .brand-mark svg { width: 17px; height: 17px; }
+
+.admin-nav { display: flex; flex-direction: column; gap: 2px; flex: 1; }
+.admin-nav-link {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: 11px 14px;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  font-size: 0.89rem;
+  color: #9FB1C4;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+.admin-nav-link svg { width: 18px; height: 18px; flex-shrink: 0; }
+.admin-nav-link:hover { background: rgba(255,255,255,0.06); color: #fff; }
+.admin-nav-link.active { background: var(--color-blue); color: #fff; }
+
+.admin-sidebar-footer { padding-top: var(--space-5); border-top: 1px solid rgba(255,255,255,0.1); margin-top: var(--space-5); }
+.admin-back-link { display: flex; align-items: center; gap: var(--space-2); font-size: 0.85rem; color: #9FB1C4; margin-bottom: var(--space-3); }
+.admin-back-link:hover { color: #fff; }
+
+.admin-main { padding: var(--space-6) var(--space-7); max-width: 1320px; }
+
+.admin-topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-6);
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+.admin-topbar h1 { font-size: 1.6rem; }
+.admin-topbar p { font-size: 0.9rem; margin-top: 2px; }
+
+/* ===== Stat cards ===== */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-4);
+  margin-bottom: var(--space-6);
+}
+.stat-card {
+  background: var(--color-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-5);
+  transition: transform var(--duration-base) var(--ease-out-soft), box-shadow var(--duration-base) var(--ease-out-soft);
+  animation: statCardIn var(--duration-slow) var(--ease-out-soft) backwards;
+}
+.stat-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
+/* Stagger each stat card's entrance slightly as the dashboard loads */
+.stats-grid .stat-card:nth-child(1) { animation-delay: 0ms; }
+.stats-grid .stat-card:nth-child(2) { animation-delay: 60ms; }
+.stats-grid .stat-card:nth-child(3) { animation-delay: 120ms; }
+.stats-grid .stat-card:nth-child(4) { animation-delay: 180ms; }
+.stats-grid .stat-card:nth-child(5) { animation-delay: 240ms; }
+.stats-grid .stat-card:nth-child(6) { animation-delay: 300ms; }
+.stats-grid .stat-card:nth-child(7) { animation-delay: 360ms; }
+@keyframes statCardIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.stat-card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: var(--space-3); }
+.stat-icon {
+  width: 38px; height: 38px;
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  transition: transform var(--duration-base) var(--ease-spring);
+}
+.stat-card:hover .stat-icon { transform: scale(1.1) rotate(-4deg); }
+.stat-icon svg { width: 19px; height: 19px; }
+.stat-value { font-family: var(--font-display); font-size: 1.7rem; font-weight: 800; color: var(--color-ink); }
+.stat-label { font-size: 0.82rem; color: var(--color-ink-soft); margin-top: 2px; }
+
+/* ===== Admin tables ===== */
+.admin-table-card {
+  background: var(--color-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+.admin-table-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-4) var(--space-5);
+  border-bottom: 1px solid var(--color-border);
+  gap: var(--space-3);
+  flex-wrap: wrap;
+}
+.admin-table-toolbar .form-input, .admin-table-toolbar .form-select { width: auto; min-width: 180px; }
+
+.admin-table-wrap { overflow-x: auto; }
+table.admin-table { width: 100%; border-collapse: collapse; min-width: 720px; }
+table.admin-table th {
+  text-align: left;
+  font-size: 0.76rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-ink-soft);
+  padding: 12px 18px;
+  background: var(--color-bg);
+  font-weight: 700;
+  white-space: nowrap;
+}
+table.admin-table td {
+  padding: 14px 18px;
+  font-size: 0.88rem;
+  border-bottom: 1px solid var(--color-border);
+  vertical-align: middle;
+}
+table.admin-table tr:last-child td { border-bottom: none; }
+table.admin-table tr:hover td { background: #FAFCFE; }
+
+.table-product-cell { display: flex; align-items: center; gap: var(--space-3); }
+.table-product-thumb { width: 42px; height: 42px; border-radius: 8px; object-fit: cover; background: var(--color-bg); flex-shrink: 0; }
+.table-product-name { font-weight: 600; max-width: 220px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+.table-actions { display: flex; gap: var(--space-2); }
+.table-icon-btn {
+  width: 32px; height: 32px;
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--color-ink-soft);
+}
+.table-icon-btn svg { width: 16px; height: 16px; }
+.table-icon-btn:hover { background: var(--color-bg); color: var(--color-blue); }
+.table-icon-btn.danger:hover { color: var(--color-red); }
+
+.status-select { font-size: 0.78rem; padding: 6px 10px; border-radius: 6px; font-weight: 700; border: 1.5px solid var(--color-border); }
+
+.admin-pagination { display: flex; justify-content: center; gap: var(--space-2); padding: var(--space-5); }
+.page-btn {
+  width: 36px; height: 36px;
+  border-radius: var(--radius-sm);
+  font-weight: 700;
+  font-size: 0.85rem;
+  border: 1px solid var(--color-border);
+  background: #fff;
+}
+.page-btn.active { background: var(--color-blue); color: #fff; border-color: var(--color-blue); }
+.page-btn:hover:not(.active) { background: var(--color-bg); }
+
+/* ===== Modal ===== */
+.modal-overlay {
+  position: fixed; inset: 0;
+  background: rgba(10,31,51,0.5);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 500;
+  padding: var(--space-4);
+}
+.modal-overlay.hidden { display: none; }
+.modal-box {
+  background: #fff;
+  border-radius: var(--radius-lg);
+  width: 100%;
+  max-width: 560px;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: var(--space-6);
+}
+.modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-5); }
+.modal-close { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; }
+.modal-close:hover { background: var(--color-bg); }
+.modal-close svg { width: 18px; height: 18px; }
+.modal-footer { display: flex; justify-content: flex-end; gap: var(--space-3); margin-top: var(--space-5); }
+
+.image-upload-box {
+  border: 1.5px dashed var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-5);
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 0.15s ease;
+}
+.image-upload-box:hover { border-color: var(--color-blue); }
+.image-upload-preview { width: 100px; height: 100px; border-radius: var(--radius-sm); object-fit: cover; margin: 0 auto var(--space-3); display: none; }
+.image-upload-box.has-image .image-upload-preview { display: block; }
+
+@media (max-width: 980px) {
+  .admin-shell { grid-template-columns: 1fr; }
+  .admin-sidebar { display: none; }
+  .stats-grid { grid-template-columns: repeat(2, 1fr); }
+  .admin-main { padding: var(--space-5); }
+}

@@ -1,0 +1,77 @@
+.product-card {
+  background: var(--color-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  transition: box-shadow var(--duration-base) var(--ease-out-soft), transform var(--duration-base) var(--ease-out-soft), border-color var(--duration-base) var(--ease-standard);
+}
+.product-card:hover {
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-5px);
+  border-color: transparent;
+}
+
+.product-image-wrap {
+  position: relative;
+  display: block;
+  aspect-ratio: 1 / 1;
+  background: var(--color-bg);
+  overflow: hidden;
+}
+.product-image-wrap img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  transition: transform var(--duration-slow) var(--ease-out-soft);
+}
+/* Gentle image zoom on hover — contained by overflow:hidden above,
+   so it never spills outside the card's rounded corners. */
+.product-card:hover .product-image-wrap img { transform: scale(1.06); }
+
+.product-tag { position: absolute; top: 10px; left: 10px; }
+.product-tag.tag-right { left: auto; right: 10px; }
+
+.out-of-stock-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(255,255,255,0.78);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: var(--color-ink-soft);
+}
+
+.product-card-body { padding: var(--space-4); }
+.product-category {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-ink-soft);
+  font-weight: 600;
+}
+.product-name {
+  font-size: 0.95rem;
+  font-weight: 700;
+  margin: var(--space-1) 0 var(--space-2);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  min-height: 2.6em;
+}
+.product-price-row { display: flex; align-items: baseline; gap: var(--space-2); margin-bottom: var(--space-3); }
+.product-price { font-weight: 700; color: var(--color-blue); font-size: 1.02rem; }
+
+/* Brief confirmation state when "Add to Cart" is clicked — swaps
+   to green with a quick pop, then reverts automatically via JS. */
+.btn-added {
+  background: var(--color-green) !important;
+  animation: addedPop 0.3s var(--ease-spring);
+}
+@keyframes addedPop {
+  0% { transform: scale(0.95); }
+  50% { transform: scale(1.04); }
+  100% { transform: scale(1); }
+}
+.product-price-old { font-size: 0.82rem; color: var(--color-ink-soft); text-decoration: line-through; }

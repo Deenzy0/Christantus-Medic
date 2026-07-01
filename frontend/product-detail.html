@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Product Details — Christantus Medical Consult</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/nav.css" />
+  <link rel="stylesheet" href="css/product-card.css" />
+  <link rel="stylesheet" href="css/product-detail.css" />
+  <link rel="stylesheet" href="css/scene3d.css" />
+</head>
+<body>
+
+  <header class="site-header" id="site-header"></header>
+
+  <main>
+    <div class="container">
+      <div class="breadcrumb" id="breadcrumb">
+        <a href="index.html">Home</a> / <a href="shop.html">Shop</a> / <span id="breadcrumb-current">Loading...</span>
+      </div>
+    </div>
+
+    <section id="product-detail-section" class="product-detail">
+      <div class="container">
+        <div class="detail-loading" id="detail-loading">
+          <div class="spinner spinner-blue"></div>
+        </div>
+        <div class="detail-layout hidden" id="detail-layout">
+          <!-- Image column -->
+          <div class="detail-image-col">
+            <div class="detail-main-image">
+              <img id="main-product-image" src="" alt="" onerror="this.src='https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=600&h=600&fit=crop'" />
+            </div>
+          </div>
+
+          <!-- Info column -->
+          <div class="detail-info-col">
+            <span class="badge badge-blue" id="detail-category"></span>
+            <h1 id="detail-name"></h1>
+            <p class="detail-brand">by <strong id="detail-brand"></strong> · SKU: <span class="mono" id="detail-sku"></span></p>
+
+            <div class="detail-price-row">
+              <span class="detail-price mono" id="detail-price"></span>
+              <span class="detail-price-old mono hidden" id="detail-price-old"></span>
+            </div>
+
+            <div id="detail-stock-badge"></div>
+            <div id="detail-rx-notice" class="rx-notice hidden">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4.5 8-11.8A8 8 0 0 0 12 2a8 8 0 0 0-8 8.2C4 17.5 12 22 12 22z"></path></svg>
+              This item requires a valid prescription. You'll be asked to confirm at checkout.
+            </div>
+
+            <p class="detail-short-desc" id="detail-short-desc"></p>
+
+            <div class="qty-add-row">
+              <div class="qty-stepper">
+                <button id="qty-minus" aria-label="Decrease quantity">−</button>
+                <input type="number" id="qty-input" value="1" min="1" />
+                <button id="qty-plus" aria-label="Increase quantity">+</button>
+              </div>
+              <button class="btn btn-primary" id="add-to-cart-detail-btn">Add to Cart</button>
+              <button class="btn btn-secondary" id="buy-now-btn">Buy Now</button>
+            </div>
+
+            <div class="detail-tabs">
+              <div class="tab-headers">
+                <button class="tab-btn active" data-tab="description">Description</button>
+                <button class="tab-btn" data-tab="dosage">Dosage Info</button>
+                <button class="tab-btn" data-tab="manufacturer">Manufacturer</button>
+              </div>
+              <div class="tab-panel active" id="tab-description"></div>
+              <div class="tab-panel" id="tab-dosage"></div>
+              <div class="tab-panel" id="tab-manufacturer"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="empty-state hidden" id="detail-error">
+          <p>Product not found. It may have been removed or the link is incorrect.</p>
+          <a href="shop.html" class="btn btn-outline mt-3">Back to Shop</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="related-section">
+      <div class="container">
+        <h2>You may also like</h2>
+        <div class="product-grid" id="related-products"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer" id="site-footer"></footer>
+  <script src="js/scene3d.js"></script>
+
+  <script src="js/config.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/product-card.js"></script>
+  <script src="js/product-detail.js"></script>
+</body>
+</html>
