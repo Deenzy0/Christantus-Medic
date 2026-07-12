@@ -37,12 +37,19 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     try {
-      const data = await api.post('/auth/login', { email, password });
-
       auth.setSession(data.token, data.user);
-      showToast(`Welcome back, ${data.user.name.split(' ')[0]}!`, 'success');
 
-      const redirect = params.get('redirect');
+// Show prominent success alert before redirecting
+    const alertEl = document.getElementById('login-alert');
+      alertEl.style.background = 'var(--color-green-light)';
+    alertEl.style.color = 'var(--color-green-dark)';
+    alertEl.style.border = '1px solid var(--color-green)';  
+    alertEl.textContent = `✓ Login successful! Welcome back, ${data.user.name.split(' ')[0]}. Redirecting...`;
+    alertEl.classList.remove('hidden');
+
+showToast(`Welcome back, ${data.user.name.split(' ')[0]}!`, 'success');
+
+const redirect = params.get('redirect');
       if (redirect && !redirect.includes('login') && !redirect.includes('register')) {
         window.location.href = redirect;
       } else if (data.user.role === 'admin') {
