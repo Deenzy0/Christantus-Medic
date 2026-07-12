@@ -1,65 +1,73 @@
 document.addEventListener('DOMContentLoaded', () => {
-  // If already logged in, skip straight to dashboard
+  // Redirect if already logged in
   if (auth.isLoggedIn()) {
     window.location.href = auth.isAdmin() ? 'admin-dashboard.html' : 'dashboard.html';
     return;
   }
 
+  // Pre-fill email if redirected from registration
+  const params = new URLSearchParams(window.location.search);
+  const prefillEmail = params.get('email');
+  if (prefillEmail) {
+    document.getElementById('email').value = prefillEmail;
+  }
+
   document.getElementById('login-form').addEventListener('submit', async (e) => {
     e.preventDefault();
-    clearErrors();
 
     const email = document.getElementById('email').value.trim();
     const password = document.getElementById('password').value;
+    const alertEl = document.getElementById('login-alert');
+    const btn = document.getElementById('login-btn');
+
+    alertEl.classList.add('hidden');
+    alertEl.classList.remove('warning');
 
     if (!email || !password) {
-      showAlert('login-alert', 'Please fill in both fields.', 'error');
+      alertEl.textContent = 'Please enter your email and password.';
+      alertEl.classList.remove('hidden');
       return;
     }
 
-    const btn = document.getElementById('login-submit-btn');
-    setLoading(btn, true);
+    btn.disabled = true;
+    const btnText = btn.querySelector('.btn-text');
+    if (btnText) btnText.textContent = 'Logging in...';
+    if (!btn.querySelector('.spinner')) {
+      btn.insertAdjacentHTML('beforeend', '<span class="spinner"></span>');
+    }
 
     try {
       const data = await api.post('/auth/login', { email, password });
+
       auth.setSession(data.token, data.user);
       showToast(`Welcome back, ${data.user.name.split(' ')[0]}!`, 'success');
 
-      const params = new URLSearchParams(window.location.search);
       const redirect = params.get('redirect');
-
-      setTimeout(() => {
-        if (data.user.role === 'admin') {
-          window.location.href = 'admin-dashboard.html';
-        } else if (redirect) {
-          window.location.href = redirect;
-        } else {
-          window.location.href = 'dashboard.html';
-        }
-      }, 400);
+      if (redirect && !redirect.includes('login') && !redirect.includes('register')) {
+        window.location.href = redirect;
+      } else if (data.user.role === 'admin') {
+        window.location.href = 'admin-dashboard.html';
+      } else {
+        window.location.href = 'dashboard.html';
+      }
     } catch (err) {
-      showAlert('login-alert', err.message, 'error');
-      setLoading(btn, false);
+      // Handle unverified email specifically
+      if (err.message && err.message.includes('verify your email')) {
+        alertEl.innerHTML = `
+          ${err.message}
+          <br/><br/>
+          <a href="verify-email.html" style="color:var(--color-blue);font-weight:600;text-decoration:underline;">
+            Resend verification email →
+          </a>
+        `;
+        alertEl.classList.add('warning');
+      } else {
+        alertEl.textContent = err.message;
+      }
+      alertEl.classList.remove('hidden');
+      btn.disabled = false;
+      if (btnText) btnText.textContent = 'Log In';
+      btn.querySelector('.spinner')?.remove();
     }
   });
 });
-
-function showAlert(id, message, type) {
-  const el = document.getElementById(id);
-  el.textContent = message;
-  el.classList.remove('hidden');
-  el.classList.toggle('success', type === 'success');
-}
-
-function clearErrors() {
-  document.getElementById('login-alert')?.classList.add('hidden');
-  document.querySelectorAll('.form-error').forEach((el) => el.classList.remove('visible'));
-}
-
-function setLoading(btn, isLoading) {
-  btn.disabled = isLoading;
-  btn.classList.toggle('is-loading', isLoading);
-  if (isLoading && !btn.querySelector('.spinner')) {
-    btn.insertAdjacentHTML('beforeend', '<span class="spinner"></span>');
-  }
-}
