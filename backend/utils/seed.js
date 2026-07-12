@@ -196,14 +196,19 @@ const seedDatabase = async () => {
     let admin = await User.findOne({ email: adminEmail });
 
     if (!admin) {
-      admin = await User.create({
-        name: process.env.ADMIN_NAME || 'Super Admin',
-        email: adminEmail,
-        password: process.env.ADMIN_PASSWORD || 'ChangeThisPassword123!',
-        role: 'admin'
-      });
-      console.log(`✅ Admin account created: ${adminEmail}`);
-    } else {
+  admin = await User.create({
+    name: process.env.ADMIN_NAME || 'Super Admin',
+    email: adminEmail,
+    password: process.env.ADMIN_PASSWORD || 'ChangeThisPassword123!',
+    role: 'admin',
+    isEmailVerified: true
+  });
+  console.log(`✅ Admin account created: ${adminEmail}`);
+} else if (!admin.isEmailVerified) {
+  admin.isEmailVerified = true;
+  await admin.save({ validateBeforeSave: false });
+  console.log(`✅ Admin email marked as verified.`);
+} else {
       console.log(`ℹ️  Admin account already exists: ${adminEmail}`);
     }
 

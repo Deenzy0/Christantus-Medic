@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
+const crypto = require('crypto');
 
 const userSchema = new mongoose.Schema(
   {
@@ -43,6 +44,31 @@ const userSchema = new mongoose.Schema(
       type: Boolean,
       default: true
     },
+
+    // ── Email Verification ──────────────────────────────────────
+    isEmailVerified: {
+      type: Boolean,
+      default: false
+    },
+    emailVerificationToken: {
+      type: String,
+      select: false
+    },
+    emailVerificationExpires: {
+      type: Date,
+      select: false
+    },
+
+    // ── Password Reset ──────────────────────────────────────────
+    passwordResetToken: {
+      type: String,
+      select: false
+    },
+    passwordResetExpires: {
+      type: Date,
+      select: false
+    },
+
     lastLogin: {
       type: Date
     }
@@ -58,15 +84,43 @@ userSchema.pre('save', async function (next) {
   next();
 });
 
-// Instance method to compare passwords
+// Compare password on login
 userSchema.methods.comparePassword = async function (candidatePassword) {
   return bcrypt.compare(candidatePassword, this.password);
 };
 
-// Hide sensitive fields when converting to JSON
+// Generate a secure email verification token (stored as hash, sent as plain)
+userSchema.methods.generateEmailVerificationToken = function () {
+  const plainToken = crypto.randomBytes(32).toString('hex');
+  // Store a SHA-256 hash of the token so that even if the DB is
+  // breached, the raw token (in the email link) can't be reused.
+  this.emailVerificationToken = crypto
+    .createHash('sha256')
+    .update(plainToken)
+    .digest('hex');
+  this.emailVerificationExpires = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24 hours
+  return plainToken; // returned to caller so it can be emailed
+};
+
+// Generate a secure password reset token
+userSchema.methods.generatePasswordResetToken = function () {
+  const plainToken = crypto.randomBytes(32).toString('hex');
+  this.passwordResetToken = crypto
+    .createHash('sha256')
+    .update(plainToken)
+    .digest('hex');
+  this.passwordResetExpires = new Date(Date.now() + 60 * 60 * 1000); // 1 hour
+  return plainToken;
+};
+
+// Safe object for JWT responses — strips all sensitive fields
 userSchema.methods.toSafeObject = function () {
   const obj = this.toObject();
   delete obj.password;
+  delete obj.emailVerificationToken;
+  delete obj.emailVerificationExpires;
+  delete obj.passwordResetToken;
+  delete obj.passwordResetExpires;
   delete obj.__v;
   return obj;
 };
