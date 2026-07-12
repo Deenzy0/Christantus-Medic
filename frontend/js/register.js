@@ -9,18 +9,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const name = document.getElementById('name').value.trim();
     const email = document.getElementById('email').value.trim();
+    const phone = document.getElementById('phone')?.value.trim() || '';
     const password = document.getElementById('password').value;
-    const confirmPassword = document.getElementById('confirmPassword').value;
+    const confirmPassword = document.getElementById('confirm-password').value;
     const alertEl = document.getElementById('register-alert');
-    const successEl = document.getElementById('register-success');
     const btn = document.getElementById('register-btn');
+    const btnText = btn.querySelector('.btn-text');
 
     alertEl.classList.add('hidden');
-    successEl?.classList.add('hidden');
+    alertEl.style.background = '';
+    alertEl.style.color = '';
+    alertEl.style.border = '';
 
-    // Client-side validation
     if (!name || !email || !password || !confirmPassword) {
-      alertEl.textContent = 'Please fill in all fields.';
+      alertEl.textContent = 'Please fill in all required fields.';
       alertEl.classList.remove('hidden');
       return;
     }
@@ -36,28 +38,30 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     btn.disabled = true;
-    const btnText = btn.querySelector('.btn-text');
     if (btnText) btnText.textContent = 'Creating account...';
     if (!btn.querySelector('.spinner')) {
       btn.insertAdjacentHTML('beforeend', '<span class="spinner"></span>');
     }
 
     try {
-      const data = await api.post('/auth/register', { name, email, password });
+      const data = await api.post('/auth/register', { name, email, password, phone });
 
-      // Show success message with verification instructions
-      if (successEl) {
-        successEl.innerHTML = `
-          <strong>Account created!</strong><br/>
-          ${data.message}
-        `;
-        successEl.classList.remove('hidden');
-      } else {
-        showToast(data.message, 'success');
-      }
+      alertEl.style.background = 'var(--color-green-light)';
+      alertEl.style.color = 'var(--color-green-dark)';
+      alertEl.style.border = '1px solid var(--color-green)';
+      alertEl.innerHTML = `
+        <strong>✓ Account created successfully!</strong><br/>
+        ${data.message || 'Please check your email to verify your account before logging in.'}
+      `;
+      alertEl.classList.remove('hidden');
 
+      showToast('Account created! Check your email.', 'success');
       document.getElementById('register-form').reset();
+
     } catch (err) {
+      alertEl.style.background = '';
+      alertEl.style.color = '';
+      alertEl.style.border = '';
       alertEl.textContent = err.message;
       alertEl.classList.remove('hidden');
     } finally {
